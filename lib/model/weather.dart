@@ -9,6 +9,7 @@ class Weather {
   final double windKph;
   final int humidity;
   final int cloud;
+  final String localtime;
   final double feelslikeC;
   final double feelslikeF;
 
@@ -16,6 +17,7 @@ class Weather {
     required this.locationName,
     required this.region,
     required this.country,
+    required this.localtime,
     required this.tempC,
     required this.tempF,
     required this.conditionText,
@@ -32,6 +34,7 @@ class Weather {
       locationName: json['location']['name'],
       region: json['location']['region'],
       country: json['location']['country'],
+      localtime: json['location']['localtime'],
       tempC: json['current']['temp_c'],
       tempF: json['current']['temp_f'],
       conditionText: json['current']['condition']['text'],

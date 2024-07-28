@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/views/DetailPage.dart';
 import 'package:weather_app/views/HomePage.dart';
 
 void main() {
@@ -7,6 +8,7 @@ void main() {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => HomePage(),
+        'detail_page': (context) => DetailPage(),
       },
     ),
   );
