@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather_app/helper/helper.dart';
 import 'package:weather_app/model/weather.dart';
-import 'package:weather_app/utils/alldata.dart';
+
+import '../provider/connectivityprovider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,81 +17,106 @@ class _HomePageState extends State<HomePage> {
   final List<Weather> weatherDataList = [];
 
   @override
+  void initState() {
+    Provider.of<ConnectivityProvider>(context, listen: false)
+        .checkConnectivity();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "HomePage",
-          style: TextStyle(
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
+      body: Consumer<ConnectivityProvider>(
+        builder: (context, connectivityProvider, _) {
+          if (connectivityProvider.isInternet) {
+            return Stack(
               children: [
-                Expanded(
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8.0),
+                Container(
+                  color: Colors.blue.shade800,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: 300,
+                        width: 370,
+                        child: Container(
+                          margin: EdgeInsets.only(top: 60),
+                          child: TextField(
+// onTapAlwaysCalled: true,
+                            cursorColor: Colors.blue.shade800,
+                            controller: searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Enter the name of city',
+                              hintStyle: TextStyle(
+                                color: Colors.blue.shade800,
+                              ), // Hint text color
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: Colors.blue.shade800,
+                              ),
+                              filled: true,
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(30),
+                                borderSide: BorderSide.none,
+                              ),
+                            ),
+                            style: TextStyle(
+                              color: Colors.blue.shade800,
+                            ), // Text color
+                            onSubmitted: (value) async {
+                              final weatherData = await ApiHelpers.apiHelper
+                                  .fetchData(Search: searchController.text);
+                              if (weatherData != null) {
+                                setState(() {
+                                  weatherDataList.add(weatherData);
+                                  searchController.clear();
+                                });
+                              }
+                            },
+                          ),
+                        ),
                       ),
-                    ),
-                    onSubmitted: (value) async {
-                      final weatherData = await ApiHelpers.apiHelper
-                          .fetchData(Search: searchController.text);
-                      if (weatherData != null) {
-                        setState(() {
-                          weatherDataList.add(weatherData);
-                          searchController.clear();
-                        });
-                      }
-                    },
+                    ],
                   ),
                 ),
-              ],
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: weatherDataList.length,
-                itemBuilder: (context, i) {
-                  final data = weatherDataList[i];
-                  final photoUrl = photos[i % photos.length];
+                Container(
+                  margin: EdgeInsets.only(top: 150),
+                  height: MediaQuery.of(context).size.height / 1.2,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                    ),
+                  ),
+                  child: ListView.builder(
+                    itemCount: weatherDataList.length,
+                    itemBuilder: (context, i) {
+                      final data = weatherDataList[i];
 
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context)
-                          .pushNamed('detail_page', arguments: data);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: Card(
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.of(context)
+                              .pushNamed('detail_page', arguments: data);
+                        },
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.only(left: 10, right: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                height: 90,
+                                height: 80,
                                 decoration: BoxDecoration(
+                                  color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: NetworkImage(photoUrl),
-                                    fit: BoxFit.cover,
-                                  ),
                                 ),
                                 alignment: Alignment.center,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.only(left: 10),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
@@ -97,16 +124,37 @@ class _HomePageState extends State<HomePage> {
                                           Text(
                                             data.locationName,
                                             style: TextStyle(
-                                              fontSize: 21,
-                                              color: Colors.white,
-                                              backgroundColor: Colors.black54,
+                                              fontSize: 19,
+                                              color: Colors.blue.shade800,
                                             ),
                                           ),
                                           Image.network(
                                             'https:${data.conditionIcon}',
-                                            height: 50,
-                                            width: 50,
+                                            height: 40,
+                                            width: 40,
                                             fit: BoxFit.cover,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 10, bottom: 5),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            "${data.region}",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                          Text(
+                                            "/${data.country}",
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.grey,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -114,17 +162,22 @@ class _HomePageState extends State<HomePage> {
                                   ],
                                 ),
                               ),
+                              Divider(),
                             ],
                           ),
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+          } else {
+            return Center(
+              child: Text("No Internet"),
+            );
+          }
+        },
       ),
     );
   }

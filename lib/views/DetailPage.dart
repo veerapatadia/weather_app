@@ -9,15 +9,9 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  List<String> photos = [
-    "https://i.pinimg.com/564x/de/d3/5b/ded35be77a9eb98ad803842e11847b57.jpg",
-    "https://i.pinimg.com/564x/da/c6/4d/dac64dd3df6116648e9b799bb0e49cdc.jpg",
-  ];
-
   @override
   Widget build(BuildContext context) {
     final Weather data = ModalRoute.of(context)!.settings.arguments as Weather;
-    final photoUrl = photos[0];
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -26,13 +20,14 @@ class _DetailPageState extends State<DetailPage> {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(photoUrl),
+                image: NetworkImage(
+                    "https://i.pinimg.com/564x/c4/10/f9/c410f9f5baa7cd580769d938cca0f4e7.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           Container(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withOpacity(0.3),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, top: 40),
@@ -45,76 +40,169 @@ class _DetailPageState extends State<DetailPage> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      icon: Icon(Icons.arrow_back_ios_new_outlined),
+                      icon: Icon(Icons.arrow_back),
                       color: Colors.white,
                     ),
-                    Text(
-                      "Weather Details",
-                      style: TextStyle(
+                    Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Text(
+                        "Weather Details",
+                        style: TextStyle(
                           color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 21,
+                        ),
+                      ),
                     ),
                   ],
                 ),
-                Text(
-                  "Location: ${data.locationName}",
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${data.locationName}",
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${data.region}",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      "/${data.country}",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.network(
                       'https:${data.conditionIcon}',
-                      height: 50,
-                      width: 50,
+                      height: 80,
+                      width: 80,
                       fit: BoxFit.cover,
                     ),
                   ],
                 ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Weather Condition: ${data.conditionText}",
+                      style: TextStyle(
+                        fontSize: 19,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Divider(),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${data.tempC} °C / ${data.tempF} °F",
+                      style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        letterSpacing: 2,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
                 SizedBox(height: 20),
-                Text(
-                  "Location Time: ${data.localtime}",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "Wind",
+                      style: TextStyle(
+                        fontSize: 27,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      "Humidity",
+                      style: TextStyle(
+                        fontSize: 27,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  "Region: ${data.region}",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 55),
+                      child: Text(
+                        "${data.windKph} kph",
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 120),
+                      child: Text(
+                        "${data.humidity}%",
+                        style: TextStyle(fontSize: 24, color: Colors.white),
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  "Country: ${data.country}",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                Divider(),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Clouds: ${data.cloud}%",
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 10),
-                Text(
-                  "Temperature: ${data.tempC} °C / ${data.tempF} °F",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                Text(
-                  "Condition: ${data.conditionText}",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Wind: ${data.windKph} kph",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                Text(
-                  "Humidity: ${data.humidity}%",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                Text(
-                  "Cloud: ${data.cloud}%",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
-                ),
-                Text(
-                  "Feels Like: ${data.feelslikeC} °C / ${data.feelslikeF} °F",
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Feels Like: ${data.feelslikeC} °C / ${data.feelslikeF} °F",
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
