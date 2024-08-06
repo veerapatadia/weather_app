@@ -1,4 +1,4 @@
-# weather_app
+# WeatherWise
 
 ## Project Description
 
