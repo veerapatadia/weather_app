@@ -57,7 +57,7 @@ class _DetailPageState extends State<DetailPage> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 30),
+                  padding: const EdgeInsets.only(top: 60),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
