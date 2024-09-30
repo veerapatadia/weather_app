@@ -1,8 +1,8 @@
-# WeatherWise
+# Sky_scrapper
 
 ## Project Description
 
-Stay informed and prepared with WeatherWise, the ultimate weather app designed to provide accurate and up-to-date weather information at your fingertips. Whether you're planning your day, week, or a special event, WeatherWise delivers real-time updates on current conditions, and extended outlooks for locations around the world. With its intuitive interface and user-friendly design, accessing weather data has never been easier. Get detailed reports on temperature, humidity, wind speed, and precipitation, along with radar maps and severe weather alerts to keep you safe. Customize your experience favorite location settings, ensuring you always have the weather information you need. WeatherWise is your reliable companion for navigating any weather condition, helping you make informed decisions and stay ahead of the weather.
+Stay informed and prepared with Sky Scrapper, the ultimate weather app designed to provide accurate and up-to-date weather information at your fingertips. Whether you're planning your day, week, or a special event, WeatherWise delivers real-time updates on current conditions, and extended outlooks for locations around the world. With its intuitive interface and user-friendly design, accessing weather data has never been easier. Get detailed reports on temperature, humidity, wind speed, and precipitation, along with radar maps and severe weather alerts to keep you safe. Customize your experience favorite location settings, ensuring you always have the weather information you need. Sky Scrapper is your reliable companion for navigating any weather condition, helping you make informed decisions and stay ahead of the weather.
 
 
 ![1](https://github.com/user-attachments/assets/d647b075-f0c9-4159-a781-1636dc3b0289)
